@@ -3,62 +3,43 @@
 #include <string>
 #include <fstream>
 
-using namespace std;
+
+// Login System
 
 struct User {
-	string username;
-	string password;
-	string type; // "admin" or "user"
+	std::string username;
+	std::string password;
+	std::string type; // "admin" or "user"
 };
 
 
 void loginuser(); //Define Functions
 void adminmenu();
-void usermenu(string username);
+void usermenu(std::string username);
 void createuser();
 void exitprogram();
 void drawMenu();
 int main();
-// Menu Details
-int steakcheesepie = 5.0;
-int hotchips = 10.0;
-int pizza = 12.50;
-int sushi = 15.0;
-int sausageroll = 5.0;
-int brownie = 7.50;
-int sandwich = 5.0;
-int bagel = 5.0;
-int donut = 7.0;
-// Payment
-
-// Discounts
-
-// Billing
-
-
 
 void createuser() { // Create User
 	system("cls"); // clear screen
 
 	User newuser;
-	cout << "Enter Username: ";
-	cin >> newuser.username;
-	cout << "Enter Password ";
-	cin >> newuser.password;
+	std::cout << "Enter Username: ";
+	std::cin >> newuser.username;
+	std::cout << "Enter Password ";
+	std::cin >> newuser.password;
 	newuser.type = "user";
 
-	ofstream usersfile("Accounts.txt", ios::app);
-	usersfile << newuser.username << " " << newuser.password << " " << newuser.type << endl;
+	std::ofstream usersfile("Accounts.txt", std::ios::app);
+	usersfile << newuser.username << " " << newuser.password << " " << newuser.type << std::endl;
 	usersfile.close();
 
-	cout << "Account creation Successful!" << endl;
+	std::cout << "Account creation Successful!" << std::endl;
 
 	main();
 
 }
-
-
-
 
 // Menu Logo
 void drawMenu() {
@@ -76,7 +57,7 @@ void drawMenu() {
 }
 
 void exitprogram() { //Program Exit
-	cout << "Exiting program. Goodbye!" << endl;
+	std::cout << "Exiting program. Goodbye!" << std::endl;
 	exit(0);
 }
 
@@ -84,23 +65,23 @@ void exitprogram() { //Program Exit
 void loginuser() {   // Login User
 
 	system("cls"); // clear screen
-	string username, password;
+	std::string username, password;
 	int attempts = 0;
 	bool found = false;
 	User currentuser; // Define currentuser variable in outer scope
 	while (attempts < 3 && !found) {
-		cout << "Enter Username: ";
-		cin >> username;
-		cout << "Enter Password: ";
-		cin >> password;
+		std::cout << "Enter Username: ";
+		std::cin >> username;
+		std::cout << "Enter Password: ";
+		std::cin >> password;
 
 		if (username.empty() || password.empty()) {
-			cout << "Username and password cannot be nil." << endl;
+			std::cout << "Username and password cannot be nil." << std::endl;
 			attempts++;
 			continue;
 		}
 
-		ifstream usersfile("Accounts.txt");
+		std::ifstream usersfile("Accounts.txt");
 		while (usersfile >> currentuser.username >> currentuser.password >> currentuser.type) {
 			if (currentuser.username == username && currentuser.password == password) {
 				found = true;
@@ -110,14 +91,14 @@ void loginuser() {   // Login User
 		usersfile.close();
 
 		if (!found) {
-			cout << "Invalid username or password." << endl;
+			std::cout << "Invalid username or password." << std::endl;
 			attempts++;
 		}
 	}
 
 
 	if (found) {
-		cout << "Login Successful!" << endl;
+		std::cout << "Login Successful!" << std::endl;
 		if (currentuser.type == "admin") {
 			adminmenu();
 		}
@@ -126,7 +107,7 @@ void loginuser() {   // Login User
 		}
 	}
 	else {
-		cout << "Too Many failed login attempts. Please try again later." << endl;
+		std::cout << "Too Many failed login attempts. Please try again later." << std::endl;
 	}
 
 }
@@ -140,11 +121,11 @@ void adminmenu()  // Admin Menu
 	int choice;
 	do {
 		drawMenu();
-		cout << "Admin Menu:" << endl;
-		cout << "1. Logout" << endl;
-		cout << "2. Exit" << endl;
-		cout << "Enter your choice: ";
-		cin >> choice;
+		std::cout << "Admin Menu:" << std::endl;
+		std::cout << "1. Logout" << std::endl;
+		std::cout << "2. Exit" << std::endl;
+		std::cout << "Enter your choice: ";
+		std::cin >> choice;
 
 		switch (choice) {
 		case 1:
@@ -154,23 +135,23 @@ void adminmenu()  // Admin Menu
 			exitprogram();
 			break;
 		default:
-			cout << "Invalid choice." << endl;
+			std::cout << "Invalid choice." << std::endl;
 			break;
 		}
 	} while (choice != 2);
 }
 
-void usermenu(string username)  // User menu
+void usermenu(std::string username)  // User menu
 {
 	system("cls"); // clear screen
 	int choice;
 	do {
 		drawMenu();
-		cout << "School Luch Menu" << endl;
-		cout << "1. Logout" << endl;
-		cout << "2. Exit" << endl;
-		cout << "Enter your choice: ";
-		cin >> choice;
+		std::cout << "School Luch Menu" << std::endl;
+		std::cout << "1. Logout" << std::endl;
+		std::cout << "2. Exit" << std::endl;
+		std::cout << "Enter your choice: ";
+		std::cin >> choice;
 
 		switch (choice) {
 		case 1:
@@ -180,26 +161,40 @@ void usermenu(string username)  // User menu
 			exitprogram();
 			break;
 		default:
-			cout << "Invalid choice." << endl;
+			std::cout << "Invalid choice." << std::endl;
 			break;
 		}
 	} while (choice != 2);
 	
 }
 
+// Menu Details
+double steakcheesepie = 5.0;
+double hotchips = 10.0;
+double pizza = 12.50;
+double sushi = 15.0;
+double sausageroll = 5.0;
+double brownie = 7.50;
+double sandwich = 5.0;
+double bagel = 5.0;
+double donut = 7.0;
+// Payment
 
+// Discounts
 
+// Billing
 
 
 int main()
 {
 	system("cls"); // clear screen
 	int choice;
-	cout << "Welcome to the School Lunch Ordering System!" << endl;
-	cout << "1. Register" << endl;
-	cout << "2. Login" << endl;
-	cout << "Enter your choice: ";
-	cin >> choice;
+	std::cout << "Welcome to the School Lunch Ordering System!" << std::endl;
+	std::cout << "1. Register" << std::endl;
+	std::cout << "2. Login" << std::endl;
+	std::cout << "3. Exit" << std::endl;
+	std::cout << "Enter your choice: ";
+	std::cin >> choice;
 
 	if (choice == 1) {
 		createuser();
