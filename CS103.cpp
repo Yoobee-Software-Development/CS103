@@ -2,40 +2,119 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-
+#include <vector>
+#include <map>
+using namespace std;
 
 // Login System
 
 struct User {
-	std::string username;
-	std::string password;
-	std::string type; // "admin" or "user"
+	string username;
+	string password;
+	string type; // "admin" or "user"
 };
 
-
-void loginuser(); //Define Functions
+// Define Functions
+void loginuser();
 void adminmenu();
-void usermenu(std::string username);
+void usermenu(string username);
+void orderMenu();
 void createuser();
 void exitprogram();
 void drawMenu();
 int main();
 
+// Menu Prices
+double pie = 5.0;
+double hotchips = 10.0;
+double pizza = 12.50;
+double sushi = 15.0;
+double sausageroll = 5.0;
+double brownie = 7.50;
+double sandwich = 5.0;
+double bagel = 5.0;
+double donut = 7.0;
+
+void orderMenu() {
+	system("cls"); // Clear Screen
+	drawMenu(); // Draws MENU Logo
+	map<string, double> menuItems = { // Name and price for all products
+		{"Steak and Cheese Pie", 5.00},
+		{"Hot Chips", 10.00},
+		{"Pizza", 12.50},
+		{"Sushi", 15.00},
+		{"Sausage Roll", 5.00},
+		{"Brownie", 7.50},
+		{"Sandwich", 5.00},
+		{"Bagel", 5.00},
+		{"Donut", 7.00}
+	};
+
+	vector<string> order;
+	double total = 0.0;
+
+	char choice;
+	do {
+		cout << "\nOur Menu:\n";
+		for (const auto& item : menuItems) {
+			cout << item.first << " - $" << item.second <<"\n";
+		}
+
+		// Item Ordering
+		string itemChoice;
+		cout << "Enter the item you wish to order or press 0 to exit: ";
+		cin >> itemChoice;
+
+		if (itemChoice == "0") { // Exit to Menu
+			main();
+			break;
+		} else if (menuItems.find(itemChoice) != menuItems.end()) {
+			order.push_back(itemChoice);
+			total += menuItems[itemChoice];
+
+			// Option to Order More Food
+			char continueChoice;
+			cout << "Do you want to order more food? (Y/N): ";
+			cin >> continueChoice;
+
+			if (continueChoice == 'N' || continueChoice == 'n') {
+				break;
+			}
+		} else {
+			cout <<"Invalid choice. Please try again.\n";
+		}
+	}
+	// Shopping Cart
+	while (true);
+	cout << "\nShopping Cart:\n";
+	if (order.empty()) {
+		cout << "No items ordered.\n";
+	} else {
+		for (const auto& item : order) {
+			cout << item << " - $" << menuItems[item] << "\n";
+		}
+		cout << "Total: $" << total << "\n\n";
+	}
+
+}
+
+
+
 void createuser() { // Create User
 	system("cls"); // clear screen
 
 	User newuser;
-	std::cout << "Enter Username: ";
-	std::cin >> newuser.username;
-	std::cout << "Enter Password ";
-	std::cin >> newuser.password;
+	cout << "Enter Username: ";
+	cin >> newuser.username;
+	cout << "Enter Password: ";
+	cin >> newuser.password;
 	newuser.type = "user";
 
-	std::ofstream usersfile("Accounts.txt", std::ios::app);
-	usersfile << newuser.username << " " << newuser.password << " " << newuser.type << std::endl;
+	ofstream usersfile("Accounts.txt", ios::app);
+	usersfile << newuser.username << " " << newuser.password << " " << newuser.type << endl;
 	usersfile.close();
 
-	std::cout << "Account creation Successful!" << std::endl;
+	cout << "Account creation Successful!" << endl;
 
 	main();
 
@@ -43,21 +122,21 @@ void createuser() { // Create User
 
 // Menu Logo
 void drawMenu() {
-	std::cout << "   ********           ********   *****************   *******       *****   *****    ***** \n";
-	std::cout << "   *   *   *         *   *   *   *               *   *      *      *   *   *   *    *   * \n";
-	std::cout << "   *   **   *       *   **   *   *   *************   *       *     *   *   *   *    *   * \n";
-	std::cout << "   *   * *   *     *   * *   *   *   *               *   **   *    *   *   *   *    *   * \n";
-	std::cout << "   *   *  *   *   *   *  *   *   *   *************   *   * *   *   *   *   *   *    *   * \n";
-	std::cout << "   *   *   *   * *   *   *   *   *   *           *   *   *  *   *  *   *   *   *    *   * \n";
-	std::cout << "   *   *    *   *   *    *   *   *   *************   *   *   *   * *   *   *   *    *   * \n";
-	std::cout << "   *   *     *     *     *   *   *   *               *   *    *   **   *   *   ******   * \n";
-	std::cout << "   *   *      *   *      *   *   *   *************   *   *     *       *   *            * \n";
-	std::cout << "   *   *       * *       *   *   *               *   *   *      *      *   *            * \n";
-	std::cout << "   *****        *        *****   *****************   *****       *******   ************** \n";
+	cout << "   ********           ********   *****************   *******       *****   *****    ***** \n";
+	cout << "   *   *   *         *   *   *   *               *   *      *      *   *   *   *    *   * \n";
+	cout << "   *   **   *       *   **   *   *   *************   *       *     *   *   *   *    *   * \n";
+	cout << "   *   * *   *     *   * *   *   *   *               *   **   *    *   *   *   *    *   * \n";
+	cout << "   *   *  *   *   *   *  *   *   *   *************   *   * *   *   *   *   *   *    *   * \n";
+	cout << "   *   *   *   * *   *   *   *   *   *           *   *   *  *   *  *   *   *   *    *   * \n";
+	cout << "   *   *    *   *   *    *   *   *   *************   *   *   *   * *   *   *   *    *   * \n";
+	cout << "   *   *     *     *     *   *   *   *               *   *    *   **   *   *   ******   * \n";
+	cout << "   *   *      *   *      *   *   *   *************   *   *     *       *   *            * \n";
+	cout << "   *   *       * *       *   *   *               *   *   *      *      *   *            * \n";
+	cout << "   *****        *        *****   *****************   *****       *******   ************** \n";
 }
 
 void exitprogram() { //Program Exit
-	std::cout << "Exiting program. Goodbye!" << std::endl;
+	cout << "Exiting program. Goodbye!" << endl;
 	exit(0);
 }
 
@@ -65,23 +144,23 @@ void exitprogram() { //Program Exit
 void loginuser() {   // Login User
 
 	system("cls"); // clear screen
-	std::string username, password;
+	string username, password;
 	int attempts = 0;
 	bool found = false;
 	User currentuser; // Define currentuser variable in outer scope
 	while (attempts < 3 && !found) {
-		std::cout << "Enter Username: ";
-		std::cin >> username;
-		std::cout << "Enter Password: ";
-		std::cin >> password;
+		cout << "Enter Username: ";
+		cin >> username;
+		cout << "Enter Password: ";
+		cin >> password;
 
 		if (username.empty() || password.empty()) {
-			std::cout << "Username and password cannot be nil." << std::endl;
+			cout << "Username and password cannot be nil." << endl;
 			attempts++;
 			continue;
 		}
 
-		std::ifstream usersfile("Accounts.txt");
+		ifstream usersfile("Accounts.txt");
 		while (usersfile >> currentuser.username >> currentuser.password >> currentuser.type) {
 			if (currentuser.username == username && currentuser.password == password) {
 				found = true;
@@ -91,14 +170,14 @@ void loginuser() {   // Login User
 		usersfile.close();
 
 		if (!found) {
-			std::cout << "Invalid username or password." << std::endl;
+			cout << "Invalid username or password." << endl;
 			attempts++;
 		}
 	}
 
 
 	if (found) {
-		std::cout << "Login Successful!" << std::endl;
+		cout << "Login Successful!" << endl;
 		if (currentuser.type == "admin") {
 			adminmenu();
 		}
@@ -107,7 +186,7 @@ void loginuser() {   // Login User
 		}
 	}
 	else {
-		std::cout << "Too Many failed login attempts. Please try again later." << std::endl;
+		cout << "Too Many failed login attempts. Please try again later." << endl;
 	}
 
 }
@@ -121,63 +200,60 @@ void adminmenu()  // Admin Menu
 	int choice;
 	do {
 		drawMenu();
-		std::cout << "Admin Menu:" << std::endl;
-		std::cout << "1. Logout" << std::endl;
-		std::cout << "2. Exit" << std::endl;
-		std::cout << "Enter your choice: ";
-		std::cin >> choice;
+		cout << "Admin Menu:" << endl;
+		cout << "1. Order" << endl;
+		cout << "2. Logout" << endl;
+		cout << "3. Exit" << endl;
+		cout << "Enter your choice: ";
+		cin >> choice;
 
 		switch (choice) {
 		case 1:
+			orderMenu();
+		case 2:
 			main();
 			break;
-		case 2:
+		case 3:
 			exitprogram();
 			break;
 		default:
-			std::cout << "Invalid choice." << std::endl;
+			cout << "Invalid choice." << endl;
 			break;
 		}
 	} while (choice != 2);
 }
 
-void usermenu(std::string username)  // User menu
+void usermenu(string username)  // User menu
 {
 	system("cls"); // clear screen
 	int choice;
 	do {
 		drawMenu();
-		std::cout << "School Luch Menu" << std::endl;
-		std::cout << "1. Logout" << std::endl;
-		std::cout << "2. Exit" << std::endl;
-		std::cout << "Enter your choice: ";
-		std::cin >> choice;
+		cout << "\nSchool Luch Menu" << endl;
+		cout << "1. Order Food" << endl;
+		cout << "2. Logout" << endl;
+		cout << "3. Exit" << endl;
+		cout << "Enter your choice: ";
+		cin >> choice;
 
 		switch (choice) {
 		case 1:
+			orderMenu();
+		case 2:
 			main();
 			break;
-		case 2:
+		case 3:
 			exitprogram();
 			break;
 		default:
-			std::cout << "Invalid choice." << std::endl;
+			cout << "Invalid choice." << endl;
 			break;
 		}
 	} while (choice != 2);
 	
 }
 
-// Menu Details
-double steakcheesepie = 5.0;
-double hotchips = 10.0;
-double pizza = 12.50;
-double sushi = 15.0;
-double sausageroll = 5.0;
-double brownie = 7.50;
-double sandwich = 5.0;
-double bagel = 5.0;
-double donut = 7.0;
+
 // Payment
 
 // Discounts
@@ -189,18 +265,18 @@ int main()
 {
 	system("cls"); // clear screen
 	int choice;
-	std::cout << "Welcome to the School Lunch Ordering System!" << std::endl;
-	std::cout << "1. Register" << std::endl;
-	std::cout << "2. Login" << std::endl;
-	std::cout << "3. Exit" << std::endl;
-	std::cout << "Enter your choice: ";
-	std::cin >> choice;
+	cout << "Welcome to the School Lunch Ordering System!" << endl;
+	cout << "1. Login" << endl;
+	cout << "2. Register" << endl;
+	cout << "3. Exit" << endl;
+	cout << "Enter your choice: ";
+	cin >> choice;
 
 	if (choice == 1) {
-		createuser();
+		loginuser();
 	}
 	else if (choice == 2) {
-		loginuser();
+		createuser();
 	}
 	else if (choice == 3) {
 		exitprogram();

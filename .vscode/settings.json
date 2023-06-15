@@ -96,6 +96,11 @@
     "xstddef": "cpp",
     "xstring": "cpp",
     "xtr1common": "cpp",
-    "xutility": "cpp"
+    "xutility": "cpp",
+    "algorithm": "cpp",
+    "fstream": "cpp",
+    "random": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
   }
 }
