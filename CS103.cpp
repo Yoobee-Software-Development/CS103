@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
-#include <cstdlib>
+#include <stdlib.h>
 using namespace std;
 
 // Login System
@@ -37,6 +37,7 @@ double sandwich = 5.0;
 double bagel = 5.0;
 double donut = 7.0;
 
+
 void saveOrderToFile(const vector<string>& order, double total) {
 	ofstream outputFile("Orders.txt");
 	if (outputFile.is_open()) {
@@ -53,7 +54,8 @@ void saveOrderToFile(const vector<string>& order, double total) {
 
 
 void orderMenu() {
-	system("cls"); // Clear Screen
+	system("cls");
+	system("clear"); // Clear Screen
 	drawMenu(); // Draws MENU Logo
 	map<string, double> menuItems = { // Name and price for all products
 		{"Pie", 5.00},
@@ -122,7 +124,8 @@ void orderMenu() {
 
 
 void createuser() {
-	system("cls"); // clear screen
+	system("cls");
+	system("clear"); // clear screen
 
 	User newuser;
 	cout << "Enter Username: ";
@@ -163,7 +166,8 @@ void deleteaccount(string username) {
 void viewaccounts() {
 	int choice;
 	do {
-		system("cls"); //Clear Screen
+		system("cls");
+		system("clear"); //Clear Screen
 		cout << "All Accounts:\n";
 		User currentuser;
 		ifstream usersfile("Accounts.txt");
@@ -184,7 +188,8 @@ void viewaccounts() {
 			cout << "Account deleted successfully.\n";
 		}
 	} while (choice != 2);
-	system("cls"); //Clear Screen
+	system("cls");
+	system("clear"); //Clear Screen
 }
 
 
@@ -211,8 +216,8 @@ void exitprogram() { //Program Exit
 
 
 void loginuser() {   // Login User
-
-	system("cls"); // clear screen
+	system("cls");
+	system("clear"); // clear screen
 	string username, password;
 	int attempts = 0;
 	bool found = false;
@@ -265,7 +270,8 @@ void loginuser() {   // Login User
 
 void adminmenu()  // Admin Menu
 {
-	system("cls"); // clear screen
+	system("cls");
+	system("clear"); // clear screen
 	int choice;
 	do {
 		drawMenu();
@@ -298,7 +304,8 @@ void adminmenu()  // Admin Menu
 
 void usermenu(string username)  // User menu
 {
-	system("cls"); // clear screen
+	system("cls");
+	system("clear"); // clear screen
 	int choice;
 	do {
 		drawMenu();
@@ -336,7 +343,8 @@ void usermenu(string username)  // User menu
 
 int main()
 {
-	system("cls"); // clear screen
+	system("cls");
+	system("clear");  // clear screen
 	int choice;
 	cout << "Welcome to the School Lunch Ordering System!" << endl;
 	cout << "1. Login" << endl;
