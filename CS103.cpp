@@ -17,6 +17,7 @@ struct User {
 // Define Functions
 void loginuser();
 void adminmenu();
+void viewaccounts();
 void usermenu(string username);
 void orderMenu();
 void createuser();
@@ -57,7 +58,7 @@ void orderMenu() {
 	do {
 		cout << "\nOur Menu:\n";
 		for (const auto& item : menuItems) {
-			cout << item.first << " - $" << item.second <<"\n";
+			cout << item.first << " - $" << item.second << "\n";
 		}
 
 		// Item Ordering
@@ -68,7 +69,8 @@ void orderMenu() {
 		if (itemChoice == "0") { // Exit to Menu
 			main();
 			break;
-		} else if (menuItems.find(itemChoice) != menuItems.end()) {
+		}
+		else if (menuItems.find(itemChoice) != menuItems.end()) {
 			order.push_back(itemChoice);
 			total += menuItems[itemChoice];
 
@@ -80,8 +82,9 @@ void orderMenu() {
 			if (continueChoice == 'N' || continueChoice == 'n') {
 				break;
 			}
-		} else {
-			cout <<"Invalid choice. Please try again.\n";
+		}
+		else {
+			cout << "Invalid choice. Please try again.\n";
 		}
 	}
 	// Shopping Cart
@@ -89,7 +92,8 @@ void orderMenu() {
 	cout << "\nShopping Cart:\n";
 	if (order.empty()) {
 		cout << "No items ordered.\n";
-	} else {
+	}
+	else {
 		for (const auto& item : order) {
 			cout << item << " - $" << menuItems[item] << "\n";
 		}
@@ -100,7 +104,7 @@ void orderMenu() {
 
 
 
-void createuser() { // Create User
+void createuser() {
 	system("cls"); // clear screen
 
 	User newuser;
@@ -108,7 +112,8 @@ void createuser() { // Create User
 	cin >> newuser.username;
 	cout << "Enter Password: ";
 	cin >> newuser.password;
-	newuser.type = "user";
+	cout << "Enter User Type (admin or user): ";
+	cin >> newuser.type;
 
 	ofstream usersfile("Accounts.txt", ios::app);
 	usersfile << newuser.username << " " << newuser.password << " " << newuser.type << endl;
@@ -117,8 +122,55 @@ void createuser() { // Create User
 	cout << "Account creation Successful!" << endl;
 
 	main();
-
 }
+
+
+void deleteaccount(string username) {
+	vector<User> users;
+	User currentuser;
+	ifstream usersfile("Accounts.txt");
+	while (usersfile >> currentuser.username >> currentuser.password >> currentuser.type) {
+		if (currentuser.username != username) {
+			users.push_back(currentuser);
+		}
+	}
+	usersfile.close();
+
+	ofstream usersfileout("Accounts.txt");
+	for (const auto& user : users) {
+		usersfileout << user.username << " " << user.password << " " << user.type << endl;
+	}
+	usersfileout.close();
+}
+
+void viewaccounts() {
+	int choice;
+	do {
+		system("cls"); //Clear Screen
+		cout << "All Accounts:\n";
+		User currentuser;
+		ifstream usersfile("Accounts.txt");
+		while (usersfile >> currentuser.username >> currentuser.password >> currentuser.type) {
+			cout << "Account Name: " << currentuser.username << ", Type: " << currentuser.type << endl;
+		}
+		usersfile.close();
+		cout << "\n1. Delete Account" << endl;
+		cout << "2. Return to Main Menu" << endl;
+		cout << "Enter your choice: ";
+		cin >> choice;
+
+		if (choice == 1) {
+			string username;
+			cout << "Enter the username of the account to delete: ";
+			cin >> username;
+			deleteaccount(username);
+			cout << "Account deleted successfully.\n";
+		}
+	} while (choice != 2);
+	system("cls"); //Clear Screen
+}
+
+
 
 // Menu Logo
 void drawMenu() {
@@ -202,8 +254,9 @@ void adminmenu()  // Admin Menu
 		drawMenu();
 		cout << "Admin Menu:" << endl;
 		cout << "1. Order" << endl;
-		cout << "2. Logout" << endl;
-		cout << "3. Exit" << endl;
+		cout << "2. View Accounts" << endl;
+		cout << "3. Logout" << endl;
+		cout << "4. Exit" << endl;
 		cout << "Enter your choice: ";
 		cin >> choice;
 
@@ -211,16 +264,19 @@ void adminmenu()  // Admin Menu
 		case 1:
 			orderMenu();
 		case 2:
-			main();
+			viewaccounts();
 			break;
 		case 3:
+			main();
+			break;
+		case 4:
 			exitprogram();
 			break;
 		default:
 			cout << "Invalid choice." << endl;
 			break;
 		}
-	} while (choice != 2);
+	} while (choice != 3);
 }
 
 void usermenu(string username)  // User menu
@@ -250,7 +306,7 @@ void usermenu(string username)  // User menu
 			break;
 		}
 	} while (choice != 2);
-	
+
 }
 
 
