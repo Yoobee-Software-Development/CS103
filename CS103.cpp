@@ -39,7 +39,7 @@ double donut = 7.0;
 
 
 void saveOrderToFile(const vector<string>& order, double total) {
-	ofstream outputFile("Orders.txt");
+	ofstream outputFile("Orders.txt", ios::app);
 	if (outputFile.is_open()) {
 		outputFile << "Order Summary: \n";
 		for (const auto& item : order) {
@@ -48,7 +48,6 @@ void saveOrderToFile(const vector<string>& order, double total) {
 		outputFile << "Total: $" << total << "\n";
 		outputFile << "----------------------------------\n";
 		outputFile.close();
-		cout << "Order saved to 'order.txt'.\n";
 	}
 }
 
@@ -106,6 +105,8 @@ void orderMenu() {
 	}
 	// Shopping Cart
 	while (true);
+	User currentuser;
+	string username;
 	cout << "\nShopping Cart:\n";
 	if (order.empty()) {
 		cout << "No items ordered.\n";
@@ -117,6 +118,15 @@ void orderMenu() {
 		cout << "Total: $" << total << "\n\n";
 
 		saveOrderToFile(order, total);
+		 
+		cout << "\nType 'Y' if you wish to return to the Main Menu: ";
+		cin >> choice;	
+		if (currentuser.type == "admin" && choice == 'Y' || choice == 'y') {
+			adminmenu();
+		}
+		else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
+			usermenu(username);
+		}
 	}
 
 }
