@@ -296,6 +296,7 @@ void adminmenu()  // Admin Menu
 		switch (choice) {
 		case 1:
 			orderMenu();
+			break;
 		case 2:
 			viewaccounts();
 			break;
