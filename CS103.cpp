@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <map>
+#include <cstdlib>
 using namespace std;
 
 // Login System
@@ -24,27 +25,41 @@ void createuser();
 void exitprogram();
 void drawMenu();
 int main();
+void saveOrderToFile();
 
 // Menu Prices
 double pie = 5.0;
-double hotchips = 10.0;
+double chips = 10.0;
 double pizza = 12.50;
 double sushi = 15.0;
-double sausageroll = 5.0;
 double brownie = 7.50;
 double sandwich = 5.0;
 double bagel = 5.0;
 double donut = 7.0;
 
+void saveOrderToFile(const vector<string>& order, double total) {
+	ofstream outputFile("Orders.txt");
+	if (outputFile.is_open()) {
+		outputFile << "Order Summary: \n";
+		for (const auto& item : order) {
+			outputFile <<item << "\n";
+		}
+		outputFile << "Total: $" << total << "\n";
+		outputFile << "----------------------------------\n";
+		outputFile.close();
+		cout << "Order saved to 'order.txt'.\n";
+	}
+}
+
+
 void orderMenu() {
 	system("cls"); // Clear Screen
 	drawMenu(); // Draws MENU Logo
 	map<string, double> menuItems = { // Name and price for all products
-		{"Steak and Cheese Pie", 5.00},
-		{"Hot Chips", 10.00},
+		{"Pie", 5.00},
+		{"Chips", 10.00},
 		{"Pizza", 12.50},
 		{"Sushi", 15.00},
-		{"Sausage Roll", 5.00},
 		{"Brownie", 7.50},
 		{"Sandwich", 5.00},
 		{"Bagel", 5.00},
@@ -63,10 +78,10 @@ void orderMenu() {
 
 		// Item Ordering
 		string itemChoice;
-		cout << "Enter the item you wish to order or press 0 to exit: ";
+		cout << "Enter the item you wish to order or type 'Exit' to exit: ";
 		cin >> itemChoice;
 
-		if (itemChoice == "0") { // Exit to Menu
+		if (itemChoice == "Exit" || itemChoice == "exit") { // Exit to Menu
 			main();
 			break;
 		}
@@ -98,6 +113,8 @@ void orderMenu() {
 			cout << item << " - $" << menuItems[item] << "\n";
 		}
 		cout << "Total: $" << total << "\n\n";
+
+		saveOrderToFile(order, total);
 	}
 
 }
