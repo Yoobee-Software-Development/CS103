@@ -446,7 +446,6 @@ void card() {
 	cout << "Expiration Date: " << expirationMonth << "/" << expirationYear << "\n";
 	cout << "Payment Successful!" << "\n";
 }
-// Discounts
 
 // Billing
 
