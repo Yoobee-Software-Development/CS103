@@ -27,6 +27,9 @@ void exitprogram();
 void drawMenu();
 int main();
 void saveOrderToFile();
+void checkout();
+void cash();
+void card();
 
 // Menu Prices
 double pie = 5.0;
@@ -116,18 +119,14 @@ void orderMenu() {
 		for (const auto& item : order) {
 			cout << item << " - $" << menuItems[item] << "\n";
 		}
-		cout << "\nTotal: $" << total << "\n\n";
+		cout << "\nTotal: $" << total;
 
 		saveOrderToFile(order, total);
 
 		// Discounts
 		int discountChoice;
 		string discount;
-
-
-
-
-		cout << "\nDo you have any discount codes?";
+		cout << "\n\nDo you have any discount codes?";
 		cout << "\n1. Enter Discount Code";
 		cout << "\n2. Continue To Checkout";
 		cout << "\nEnter your choice: ";
@@ -141,12 +140,12 @@ void orderMenu() {
 					cout << "\nCode Approved!";
 					total -= total * 0.20;
 					cout << "\nYour Total Is $" << total << "\n\n";
-					void checkout();
+					checkout();
 					break;
 					
 				}
 			case 2:
-				void checkout();
+				checkout();
 				break;
 		}
 	}
@@ -155,8 +154,10 @@ void orderMenu() {
 
 // Checkout
 void checkout() {
+	system("cls");
+	system("clear");
 	int option;
-	cout << "\nWould you like to pay with Cash or Credit Card? ";
+	cout << "Choose your payment method";
 	cout << "\n1. Cash";
 	cout << "\n2. Credit Card";
 	cout << "\nEnter you choice: ";
@@ -164,10 +165,10 @@ void checkout() {
 	
 	switch(option) {
 		case 1:
-			void cash();
+			cash();
 			break;
 		case 2:
-			void card();
+			card();
 			break;
 	}
 }
@@ -389,13 +390,17 @@ void usermenu(string username)
 
 
 // Payment
+
 void cash() {
+	system("cls");
+	system("clear");
+
 	string username;
 	User currentuser;
 	int choice;
 	cout << "Please insert your cash...";
 	cout << "\n1. Insert Cash";
-	cout << "\n2. Return to Menu";
+	cout << "\n2. Return to Payment Methods";
 	cout << "\nEnter your choice: ";
 	cin >> choice;
 
@@ -405,7 +410,7 @@ void cash() {
 			cout << "\nPayment Accepted.";
 
 			int option;
-			cout << "Press 'Y' to return to the Main Menu: ";
+			cout << "\n\nPress 'Y' to return to the Main Menu: ";
 			cin >> option;
 			if (currentuser.type == "admin" && option == 'Y' || option == 'y') {
 				adminmenu();
@@ -415,16 +420,14 @@ void cash() {
 			}
 			
 		case 2:
-			if (currentuser.type == "admin") {
-				adminmenu();
-			}
-			else if (currentuser.type == "user") {
-				usermenu(username);
-			}
+			checkout();
 	}
 }
 
 void card() {
+	system("cls");
+	system("clear");
+
 	// Declare variables
 	string cardNumber;
 	string cardHolderName;
@@ -440,8 +443,7 @@ void card() {
 	cout << "\nEnter Card Number: ";
 	cin >> cardNumber;
 	cout << "\nEnter Cardholder Name: ";
-	cin.ignore();
-	getline(cin, cardHolderName);
+	cin >> cardHolderName;
 	cout << "\nEnter CVV: ";
 	cin >> cvv;
 	cout << "\nEnter Expiration Month: ";
@@ -450,12 +452,18 @@ void card() {
 	cin >> expirationYear;
 
 	// Process Payment
-	cout << "\n" << "Processing Payment...\n";
-	cout << "Card Number: " << cardNumber << "\n";
-	cout << "Cardholder Name: " << cardHolderName << "\n";
-	cout << "CVV: ***" << "\n";
-	cout << "Expiration Date: " << expirationMonth << "/" << expirationYear << "\n";
-	cout << "Payment Successful!" << "\n";
+	cout << "\n" << "Processing Payment...";
+	cout << "\n\nCard Number: " << cardNumber;
+	cout << "\nCardholder Name: " << cardHolderName;
+	cout << "\nCVV: ***";
+	cout << "\nExpiration Date: " << expirationMonth << "/" << expirationYear;
+	cout << "\nPayment Successful!";
+
+	string menuReturn;
+	while(true) {
+		cout << "\n\nType 'exit' to return to the menu: ";
+		cin >> menuReturn;
+	}
 }
 
 // Billing
