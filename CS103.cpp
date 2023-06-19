@@ -18,15 +18,16 @@ struct User {
 
 // Define Functions
 void loginuser();
-void adminmenu();
+void adminmenu(string username);
 void viewaccounts();
+void vieworder(string username);
 void usermenu(string username);
-void orderMenu();
+void orderMenu(string username);
 void createuser();
 void exitprogram();
 void drawMenu();
 int main();
-void saveOrderToFile();
+void saveOrderToFile(const string& username, const vector<string>& order, double total);
 void checkout();
 void cash();
 void card();
@@ -42,12 +43,13 @@ double bagel = 5.0;
 double donut = 7.0;
 
 
-void saveOrderToFile(const vector<string>& order, double total) {
+void saveOrderToFile(const string& username, const vector<string>& order, double total) {
 	ofstream outputFile("Orders.txt", ios::app);
 	if (outputFile.is_open()) {
+		outputFile << "Username: " << username << "\n";
 		outputFile << "Order Summary: \n";
 		for (const auto& item : order) {
-			outputFile <<item << "\n";
+			outputFile << item << "\n";
 		}
 		outputFile << "Total: $" << total << "\n";
 		outputFile << "----------------------------------\n";
@@ -56,7 +58,43 @@ void saveOrderToFile(const vector<string>& order, double total) {
 }
 
 
-void orderMenu() {
+void vieworder(string username) {
+	int choice;
+	do {
+		system("cls");
+		system("clear");
+		ifstream inputFile("Orders.txt");
+		string line;
+		bool found = false;
+		while (getline(inputFile, line)) {
+			if (line.find(username) != string::npos) {
+				found = true;
+				cout << line << endl;
+				while (getline(inputFile, line) && !line.empty()) {
+					cout << line << endl;
+				}
+				break;
+			}
+		}
+		inputFile.close();
+		if (!found) {
+			cout << "Account has no orders placed." << endl;
+		}
+		cout << "\n1. Back to Menu" << endl;
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		if (choice == 1) {
+			usermenu(username);
+			break;
+		}
+	} while (choice != 1);
+}
+
+
+
+
+void orderMenu(string username) {
 	system("cls");
 	system("clear"); // Clear Screen
 	drawMenu(); // Draws MENU Logo
@@ -110,7 +148,6 @@ void orderMenu() {
 	// Shopping Cart
 	while (true);
 	User currentuser;
-	string username;
 	cout << "\nShopping Cart:\n";
 	if (order.empty()) {
 		cout << "No items ordered.\n";
@@ -121,7 +158,7 @@ void orderMenu() {
 		}
 		cout << "\nTotal: $" << total;
 
-		saveOrderToFile(order, total);
+		saveOrderToFile(username,order, total);
 
 		// Discounts
 		int discountChoice;
@@ -132,21 +169,21 @@ void orderMenu() {
 		cout << "\nEnter your choice: ";
 		cin >> discountChoice;
 
-		switch(discountChoice) {
-			case 1:
-				cout << "\nEnter Discount Code: ";
-				cin >> discount;
-				if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
-					cout << "\nCode Approved!";
-					total -= total * 0.20;
-					cout << "\nYour Total Is $" << total << "\n\n";
-					checkout();
-					break;
-					
-				}
-			case 2:
+		switch (discountChoice) {
+		case 1:
+			cout << "\nEnter Discount Code: ";
+			cin >> discount;
+			if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
+				cout << "\nCode Approved!";
+				total -= total * 0.20;
+				cout << "\nYour Total Is $" << total << "\n\n";
 				checkout();
 				break;
+
+			}
+		case 2:
+			checkout();
+			break;
 		}
 	}
 }
@@ -162,14 +199,14 @@ void checkout() {
 	cout << "\n2. Credit Card";
 	cout << "\nEnter you choice: ";
 	cin >> option;
-	
-	switch(option) {
-		case 1:
-			cash();
-			break;
-		case 2:
-			card();
-			break;
+
+	switch (option) {
+	case 1:
+		cash();
+		break;
+	case 2:
+		card();
+		break;
 	}
 }
 
@@ -306,7 +343,7 @@ void loginuser() {   // Login User
 	if (found) {
 		cout << "Login Successful!" << endl;
 		if (currentuser.type == "admin") {
-			adminmenu();
+			adminmenu(username);
 		}
 		else {
 			usermenu(username);
@@ -321,7 +358,7 @@ void loginuser() {   // Login User
 
 
 // Admin Menu
-void adminmenu()
+void adminmenu(string username)
 {
 	system("cls");
 	system("clear"); // clear screen
@@ -338,7 +375,7 @@ void adminmenu()
 
 		switch (choice) {
 		case 1:
-			orderMenu();
+			orderMenu(username);
 			break;
 		case 2:
 			viewaccounts();
@@ -366,25 +403,30 @@ void usermenu(string username)
 		drawMenu();
 		cout << "\nSchool Luch Menu" << endl;
 		cout << "1. Order Food" << endl;
-		cout << "2. Logout" << endl;
-		cout << "3. Exit" << endl;
+		cout << "2. View Orders" << endl;
+		cout << "3. Logout" << endl;
+		cout << "4. Exit" << endl;
 		cout << "Enter your choice: ";
 		cin >> choice;
 
 		switch (choice) {
 		case 1:
-			orderMenu();
+			orderMenu(username);
+			break;
 		case 2:
-			main();
+			vieworder(username);
 			break;
 		case 3:
+			main();
+			break;
+		case 4:
 			exitprogram();
 			break;
 		default:
 			cout << "Invalid choice." << endl;
 			break;
 		}
-	} while (choice != 2);
+	} while (choice != 3);
 
 }
 
@@ -404,23 +446,23 @@ void cash() {
 	cout << "\nEnter your choice: ";
 	cin >> choice;
 
-	switch(choice) {
-		case 1:
-			cout << "\nProcessing Payment...";
-			cout << "\nPayment Accepted.";
+	switch (choice) {
+	case 1:
+		cout << "\nProcessing Payment...";
+		cout << "\nPayment Accepted.";
 
-			int option;
-			cout << "\n\nPress 'Y' to return to the Main Menu: ";
-			cin >> option;
-			if (currentuser.type == "admin" && option == 'Y' || option == 'y') {
-				adminmenu();
-			}
-			else if (currentuser.type == "user" && option == 'Y' || option == 'y') {
-				usermenu(username);
-			}
-			
-		case 2:
-			checkout();
+		int option;
+		cout << "\n\nPress 'Y' to return to the Main Menu: ";
+		cin >> option;
+		if (currentuser.type == "admin" && option == 'Y' || option == 'y') {
+			adminmenu(username);
+		}
+		else if (currentuser.type == "user" && option == 'Y' || option == 'y') {
+			usermenu(username);
+		}
+
+	case 2:
+		checkout();
 	}
 }
 
@@ -460,13 +502,13 @@ void card() {
 	cout << "\nPayment Successful!";
 
 	string menuReturn;
-	while(true) {
+	while (true) {
 		User currentuser;
 		string username;
 		cout << "\n\nType 'Y' to return to the menu: ";
 		cin >> menuReturn;
 		if (currentuser.type == "admin" && menuReturn == "Y" || menuReturn == "y") {
-			adminmenu();
+			adminmenu(username);
 		}
 		else if (currentuser.type == "user" && menuReturn == "Y" || menuReturn == "y") {
 			usermenu(username);
@@ -498,4 +540,4 @@ int main()
 		exitprogram();
 	}
 	return 0;
-}
+}v
