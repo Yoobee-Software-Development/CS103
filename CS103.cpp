@@ -121,26 +121,33 @@ void orderMenu() {
 		saveOrderToFile(order, total);
 
 		// Discounts
-		char discountChoice;
+		int discountChoice;
 		string discount;
 
-		cout << "\nDo you have any discount codes? (Y/N) ";
+
+
+
+		cout << "\nDo you have any discount codes?";
+		cout << "\n1. Enter Discount Code";
+		cout << "\n2. Continue To Checkout";
+		cout << "\nEnter your choice: ";
 		cin >> discountChoice;
-		if (discountChoice == 'Y' || discountChoice == 'y') {
-			cout << "\nEnter Discount Code: ";
-			cin >> discount;
-			if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
-				cout <<"\nCode Approved!";
-				total = total - (total * 0.20);
-				cout << "\nYour Total is $" << total << "\n\n";
+
+		switch(discountChoice) {
+			case 1:
+				cout << "\nEnter Discount Code: ";
+				cin >> discount;
+				if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
+					cout << "\nCode Approved!";
+					total -= total * 0.20;
+					cout << "\nYour Total Is $" << total << "\n\n";
+					void checkout();
+					break;
+					
+				}
+			case 2:
 				void checkout();
-			}
-			else if (discountChoice == 'N' || discountChoice == 'n') {
-				void checkout();
-			}
-			else {
-				cout << "Invalid Code.";
-			}
+				break;
 		}
 	}
 }
@@ -152,13 +159,16 @@ void checkout() {
 	cout << "\nWould you like to pay with Cash or Credit Card? ";
 	cout << "\n1. Cash";
 	cout << "\n2. Credit Card";
+	cout << "\nEnter you choice: ";
 	cin >> option;
 	
 	switch(option) {
 		case 1:
 			void cash();
+			break;
 		case 2:
 			void card();
+			break;
 	}
 }
 
@@ -384,8 +394,9 @@ void cash() {
 	User currentuser;
 	int choice;
 	cout << "Please insert your cash...";
-	cout << "1. Insert Cash";
-	cout << "2. Return to Menu";
+	cout << "\n1. Insert Cash";
+	cout << "\n2. Return to Menu";
+	cout << "\nEnter your choice: ";
 	cin >> choice;
 
 	switch(choice) {
