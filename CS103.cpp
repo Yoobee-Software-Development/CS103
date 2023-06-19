@@ -126,7 +126,6 @@ void orderMenu(string username) {
 
 		if (itemChoice == "Exit" || itemChoice == "exit") { // Exit to Menu
 			main();
-			break;
 		}
 		else if (menuItems.find(itemChoice) != menuItems.end()) {
 			order.push_back(itemChoice);
@@ -193,14 +192,14 @@ void orderMenu(string username) {
 void checkout() {
 	system("cls");
 	system("clear");
-	int option;
+	int choice;
 	cout << "Choose your payment method";
 	cout << "\n1. Cash";
 	cout << "\n2. Credit Card";
 	cout << "\nEnter you choice: ";
-	cin >> option;
+	cin >> choice;
 
-	switch (option) {
+	switch (choice) {
 	case 1:
 		cash();
 		break;
@@ -368,8 +367,9 @@ void adminmenu(string username)
 		cout << "Admin Menu:" << endl;
 		cout << "1. Order" << endl;
 		cout << "2. View Accounts" << endl;
-		cout << "3. Logout" << endl;
-		cout << "4. Exit" << endl;
+		cout << "3. View Orders" << endl;
+		cout << "4. Logout" << endl;
+		cout << "5. Exit" << endl;
 		cout << "Enter your choice: ";
 		cin >> choice;
 
@@ -381,9 +381,11 @@ void adminmenu(string username)
 			viewaccounts();
 			break;
 		case 3:
+			vieworder(username);
+		case 4:
 			main();
 			break;
-		case 4:
+		case 5:
 			exitprogram();
 			break;
 		default:
@@ -439,30 +441,35 @@ void cash() {
 
 	string username;
 	User currentuser;
-	int choice;
+	int insertChoice;
 	cout << "Please insert your cash...";
 	cout << "\n1. Insert Cash";
 	cout << "\n2. Return to Payment Methods";
 	cout << "\nEnter your choice: ";
-	cin >> choice;
+	cin >> insertChoice;
 
-	switch (choice) {
+	switch (insertChoice) {
 	case 1:
 		cout << "\nProcessing Payment...";
 		cout << "\nPayment Accepted.";
 
-		int option;
+		char choice;
 		cout << "\n\nPress 'Y' to return to the Main Menu: ";
-		cin >> option;
-		if (currentuser.type == "admin" && option == 'Y' || option == 'y') {
+		cin >> choice;
+		if (currentuser.type == "admin" && choice == 'Y' || choice == 'y') {
+			system("cls");
+			system("clear");
 			adminmenu(username);
 		}
-		else if (currentuser.type == "user" && option == 'Y' || option == 'y') {
+		else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
+			system("cls");
+			system("clear");
 			usermenu(username);
 		}
-
+		break;
 	case 2:
 		checkout();
+		break;
 	}
 }
 
@@ -471,6 +478,8 @@ void card() {
 	system("clear");
 
 	// Declare variables
+	User currentuser;
+	string username;
 	string cardNumber;
 	string cardHolderName;
 	int cvv;
@@ -501,18 +510,26 @@ void card() {
 	cout << "\nExpiration Date: " << expirationMonth << "/" << expirationYear;
 	cout << "\nPayment Successful!";
 
-	string menuReturn;
-	while (true) {
-		User currentuser;
-		string username;
-		cout << "\n\nType 'Y' to return to the menu: ";
-		cin >> menuReturn;
-		if (currentuser.type == "admin" && menuReturn == "Y" || menuReturn == "y") {
-			adminmenu(username);
-		}
-		else if (currentuser.type == "user" && menuReturn == "Y" || menuReturn == "y") {
-			usermenu(username);
-		}
+	char choice;
+	cout << "\n\nPress 'Y' to return to the Main Menu: ";
+	cin >> choice;
+
+	switch (choice) {
+		case 1:
+			if (currentuser.type ==  "admin" && choice == 'Y' || choice == 'y') {
+				system("cls");
+				system("clear");
+				adminmenu(username);
+			}
+			else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
+				system("cls");
+				system("clear");
+				usermenu(username);
+			}
+			break;
+		case 2:
+			cout <<"Invalid choice. Please try again.";
+			break;
 	}
 }
 
@@ -540,4 +557,4 @@ int main()
 		exitprogram();
 	}
 	return 0;
-}v
+};
