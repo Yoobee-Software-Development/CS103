@@ -463,12 +463,12 @@ void card() {
 	while(true) {
 		User currentuser;
 		string username;
-		cout << "\n\nType 'exit' to return to the menu: ";
+		cout << "\n\nType 'Y' to return to the menu: ";
 		cin >> menuReturn;
-		if (currentuser.type == "admin" && menuReturn == 'exit' || menuReturn == 'Exit') {
+		if (currentuser.type == "admin" && menuReturn == "Y" || menuReturn == "y") {
 			adminmenu();
 		}
-		else if (currentuser.type == "user" && menuReturn == 'exit' || menuReturn == 'Exit') {
+		else if (currentuser.type == "user" && menuReturn == "Y" || menuReturn == "y") {
 			usermenu(username);
 		}
 	}
