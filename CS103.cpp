@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <stdlib.h>
+#include <cstdlib>
 using namespace std;
 
 // Login System
@@ -115,24 +116,53 @@ void orderMenu() {
 		for (const auto& item : order) {
 			cout << item << " - $" << menuItems[item] << "\n";
 		}
-		cout << "Total: $" << total << "\n\n";
+		cout << "\nTotal: $" << total << "\n\n";
 
 		saveOrderToFile(order, total);
-		 
-		cout << "\nType 'Y' if you wish to return to the Main Menu: ";
-		cin >> choice;	
-		if (currentuser.type == "admin" && choice == 'Y' || choice == 'y') {
-			adminmenu();
-		}
-		else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
-			usermenu(username);
+
+		// Discounts
+		char discountChoice;
+		string discount;
+
+		cout << "\nDo you have any discount codes? (Y/N) ";
+		cin >> discountChoice;
+		if (discountChoice == 'Y' || discountChoice == 'y') {
+			cout << "\nEnter Discount Code: ";
+			cin >> discount;
+			if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
+				cout <<"\nCode Approved!";
+				total = total - (total * 0.20);
+				cout << "\nYour Total is $" << total << "\n\n";
+				void checkout();
+			}
+			else if (discountChoice == 'N' || discountChoice == 'n') {
+				void checkout();
+			}
+			else {
+				cout << "Invalid Code.";
+			}
 		}
 	}
-
 }
 
 
+// Checkout
+void checkout() {
+	int option;
+	cout << "\nWould you like to pay with Cash or Credit Card? ";
+	cout << "\n1. Cash";
+	cout << "\n2. Credit Card";
+	cin >> option;
+	
+	switch(option) {
+		case 1:
+			void cash();
+		case 2:
+			void card();
+	}
+}
 
+// Create Account
 void createuser() {
 	system("cls");
 	system("clear"); // clear screen
@@ -154,7 +184,7 @@ void createuser() {
 	main();
 }
 
-
+// Delete Account
 void deleteaccount(string username) {
 	vector<User> users;
 	User currentuser;
@@ -173,11 +203,12 @@ void deleteaccount(string username) {
 	usersfileout.close();
 }
 
+// View Accounts
 void viewaccounts() {
 	int choice;
 	do {
 		system("cls");
-		system("clear"); //Clear Screen
+		system("clear"); // Clear Screen
 		cout << "All Accounts:\n";
 		User currentuser;
 		ifstream usersfile("Accounts.txt");
@@ -219,12 +250,13 @@ void drawMenu() {
 	cout << "   *****        *        *****   *****************   *****       *******   ************** \n";
 }
 
+
 void exitprogram() { //Program Exit
 	cout << "Exiting program. Goodbye!" << endl;
 	exit(0);
 }
 
-
+// Login
 void loginuser() {   // Login User
 	system("cls");
 	system("clear"); // clear screen
@@ -277,8 +309,8 @@ void loginuser() {   // Login User
 
 
 
-
-void adminmenu()  // Admin Menu
+// Admin Menu
+void adminmenu()
 {
 	system("cls");
 	system("clear"); // clear screen
@@ -313,7 +345,8 @@ void adminmenu()  // Admin Menu
 	} while (choice != 3);
 }
 
-void usermenu(string username)  // User menu
+// User Menu
+void usermenu(string username)
 {
 	system("cls");
 	system("clear"); // clear screen
@@ -346,11 +379,76 @@ void usermenu(string username)  // User menu
 
 
 // Payment
+void cash() {
+	string username;
+	User currentuser;
+	int choice;
+	cout << "Please insert your cash...";
+	cout << "1. Insert Cash";
+	cout << "2. Return to Menu";
+	cin >> choice;
 
+	switch(choice) {
+		case 1:
+			cout << "\nProcessing Payment...";
+			cout << "\nPayment Accepted.";
+
+			int option;
+			cout << "Press 'Y' to return to the Main Menu: ";
+			cin >> option;
+			if (currentuser.type == "admin" && option == 'Y' || option == 'y') {
+				adminmenu();
+			}
+			else if (currentuser.type == "user" && option == 'Y' || option == 'y') {
+				usermenu(username);
+			}
+			
+		case 2:
+			if (currentuser.type == "admin") {
+				adminmenu();
+			}
+			else if (currentuser.type == "user") {
+				usermenu(username);
+			}
+	}
+}
+
+void card() {
+	// Declare variables
+	string cardNumber;
+	string cardHolderName;
+	int cvv;
+	int expirationMonth;
+	int expirationYear;
+
+	// Payment Form
+	cout << "     Payment\n";
+	cout << "=================\n";
+
+	// Gather CC information from user
+	cout << "\nEnter Card Number: ";
+	cin >> cardNumber;
+	cout << "\nEnter Cardholder Name: ";
+	cin.ignore();
+	getline(cin, cardHolderName);
+	cout << "\nEnter CVV: ";
+	cin >> cvv;
+	cout << "\nEnter Expiration Month: ";
+	cin >> expirationMonth;
+	cout << "\nEnter Expiration Year: ";
+	cin >> expirationYear;
+
+	// Process Payment
+	cout << "\n" << "Processing Payment...\n";
+	cout << "Card Number: " << cardNumber << "\n";
+	cout << "Cardholder Name: " << cardHolderName << "\n";
+	cout << "CVV: ***" << "\n";
+	cout << "Expiration Date: " << expirationMonth << "/" << expirationYear << "\n";
+	cout << "Payment Successful!" << "\n";
+}
 // Discounts
 
 // Billing
-
 
 int main()
 {
