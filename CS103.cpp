@@ -42,7 +42,7 @@ double sandwich = 5.0;
 double bagel = 5.0;
 double donut = 7.0;
 
-
+// Save Order to Text File
 void saveOrderToFile(const string& username, const vector<string>& order, double total) {
 	ofstream outputFile("Orders.txt", ios::app);
 	if (outputFile.is_open()) {
@@ -57,7 +57,7 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 	}
 }
 
-
+// View Order
 void vieworder(string username) {
 	int choice;
 	do {
@@ -93,7 +93,7 @@ void vieworder(string username) {
 
 
 
-
+// Order Menu
 void orderMenu(string username) {
 	system("cls");
 	system("clear"); // Clear Screen
@@ -144,6 +144,7 @@ void orderMenu(string username) {
 			cout << "Invalid choice. Please try again.\n";
 		}
 	}
+
 	// Shopping Cart
 	while (true);
 	User currentuser;
@@ -280,8 +281,6 @@ void viewaccounts() {
 	system("clear"); //Clear Screen
 }
 
-
-
 // Menu Logo
 void drawMenu() {
 	cout << "   ********           ********   *****************   *******       *****   *****    ***** \n";
@@ -297,8 +296,8 @@ void drawMenu() {
 	cout << "   *****        *        *****   *****************   *****       *******   ************** \n";
 }
 
-
-void exitprogram() { //Program Exit
+// Exit Program
+void exitprogram() {
 	cout << "Exiting program. Goodbye!" << endl;
 	exit(0);
 }
@@ -435,6 +434,7 @@ void usermenu(string username)
 
 // Payment
 
+// Cash Payment
 void cash() {
 	system("cls");
 	system("clear");
@@ -473,6 +473,7 @@ void cash() {
 	}
 }
 
+// Credit Card Payment
 void card() {
 	system("cls");
 	system("clear");
@@ -535,6 +536,7 @@ void card() {
 
 // Billing
 
+// Main
 int main()
 {
 	system("cls");
