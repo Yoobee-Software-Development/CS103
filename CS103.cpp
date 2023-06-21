@@ -158,7 +158,6 @@ void orderMenu(string username) {
 		}
 		cout << "\nTotal: $" << total;
 
-		saveOrderToFile(username,order, total);
 
 		// Discounts
 		int discountChoice;
@@ -177,6 +176,7 @@ void orderMenu(string username) {
 				cout << "\nCode Approved!";
 				total -= total * 0.20;
 				cout << "\nYour Total Is $" << total << "\n\n";
+				saveOrderToFile(username,order, total);
 				checkout();
 				break;
 
@@ -431,8 +431,6 @@ void usermenu(string username)
 
 }
 
-
-// Payment
 
 // Cash Payment
 void cash() {
