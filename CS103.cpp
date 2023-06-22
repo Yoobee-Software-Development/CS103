@@ -1,4 +1,3 @@
-// Zach Lovett & James McGregor CS103 Project
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -20,6 +19,7 @@ struct User {
 void loginuser();
 void adminmenu(string username);
 void viewaccounts();
+void Adminvieworder(string username);
 void vieworder(string username);
 void usermenu(string username);
 void orderMenu(string username);
@@ -31,6 +31,8 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 void checkout();
 void cash();
 void card();
+void Deleteorder(const string& username);
+void DeleteorderAdmin();
 
 // Menu Prices
 double pie = 5.0;
@@ -44,17 +46,154 @@ double donut = 7.0;
 
 // Save Order to Text File
 void saveOrderToFile(const string& username, const vector<string>& order, double total) {
-	ofstream outputFile("Orders.txt", ios::app);
-	if (outputFile.is_open()) {
+	static int orderNumber = 1;
+	map<string, double> menuItems = {
+		{"Pie", 5.00},
+		{"Chips", 10.00},
+		{"Pizza", 12.50},
+		{"Sushi", 15.00},
+		{"Brownie", 7.50},
+		{"Sandwich", 5.00},
+		{"Bagel", 5.00},
+		{"Donut", 7.00}
+	};
+
+	string fileName = username + ".txt";
+	ofstream outputFile(fileName, ios::app);
+	ofstream adminFile("adminorder.txt", ios::app);
+	if (outputFile.is_open() && adminFile.is_open()) {
+		outputFile << "Order Number: " << orderNumber << "\n";
 		outputFile << "Username: " << username << "\n";
 		outputFile << "Order Summary: \n";
+		adminFile << "Order Number: " << orderNumber << "\n";
+		adminFile << "Username: " << username << "\n";
+		adminFile << "Order Summary: \n";
 		for (const auto& item : order) {
-			outputFile << item << "\n";
+			outputFile << item << " - $" << menuItems[item] << "\n";
+			adminFile << item << " - $" << menuItems[item] << "\n";
 		}
 		outputFile << "Total: $" << total << "\n";
+		adminFile << "Total: $" << total << "\n";
 		outputFile << "----------------------------------\n";
+		adminFile << "----------------------------------\n";
 		outputFile.close();
+		adminFile.close();
 	}
+	orderNumber++;
+}
+
+
+
+
+
+void Deleteorder(const string& username) {
+	string fileName = username + ".txt";
+	vector<string> lines;
+	ifstream userFile(fileName);
+	string line;
+	int orderNumberToDelete;
+	cout << "Enter the order number of the order you want to delete: ";
+	cin >> orderNumberToDelete;
+	bool found = false;
+	while (getline(userFile, line)) {
+		if (line.find("Order Number: " + to_string(orderNumberToDelete)) != string::npos) {
+			found = true;
+			while (getline(userFile, line) && !line.empty()) {
+				// skip lines until the next order
+			}
+		}
+		else {
+			lines.push_back(line);
+		}
+	}
+	userFile.close();
+
+	if (found) {
+		ofstream userFileOut(fileName);
+		for (const auto& line : lines) {
+			userFileOut << line << "\n";
+		}
+		userFileOut.close();
+cout << "Order deleted successfully." << endl;
+	}
+ else {
+	 cout << "No orders found." << endl;
+	}
+}
+
+
+void DeleteorderAdmin() {
+	vector<string> lines;
+	ifstream adminFile("adminorder.txt");
+	string line;
+	int orderNumberToDelete;
+	cout << "Enter the order number of the order you want to delete: ";
+	cin >> orderNumberToDelete;
+	bool found = false;
+	while (getline(adminFile, line)) {
+		if (line.find("Order Number: " + to_string(orderNumberToDelete)) != string::npos) {
+			found = true;
+			while (getline(adminFile, line) && !line.empty()) {
+				// skip lines until the next order
+			}
+		}
+		else {
+			lines.push_back(line);
+		}
+	}
+	adminFile.close();
+
+	if (found) {
+		ofstream adminFileOut("adminorder.txt");
+		for (const auto& line : lines) {
+			adminFileOut << line << "\n";
+		}
+		adminFileOut.close();
+		cout << "Order deleted successfully." << endl;
+	}
+	else {
+		cout << "No order found with the specified order number." << endl;
+	}
+}
+
+
+
+void Adminvieworder(string username) {
+	int choice;
+	do {
+		system("cls");
+		system("clear");
+		ifstream inputFile("adminorder.txt");
+		string line;
+		bool found = false;
+		while (getline(inputFile, line)) {
+			found = true;
+			cout << line << endl;
+			while (getline(inputFile, line) && !line.empty()) {
+				cout << line << endl;
+			}
+		}
+		inputFile.close();
+		if (!found) {
+			cout << "No orders have been placed." << endl;
+		}
+		cout << "\n1. Delete Order" << endl;
+		cout << "2. Back to Menu" << endl;
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			DeleteorderAdmin();
+			break;
+		case 2:
+			adminmenu(username);
+			break;
+		default:
+			cout << "Invalid choice." << endl;
+			break;
+		}
+	} while (choice != 2);
 }
 
 // View Order
@@ -63,32 +202,39 @@ void vieworder(string username) {
 	do {
 		system("cls");
 		system("clear");
-		ifstream inputFile("Orders.txt");
+		string fileName = username + ".txt";
+		ifstream inputFile(fileName);
 		string line;
 		bool found = false;
 		while (getline(inputFile, line)) {
-			if (line.find(username) != string::npos) {
-				found = true;
+			found = true;
+			cout << line << endl;
+			while (getline(inputFile, line) && !line.empty()) {
 				cout << line << endl;
-				while (getline(inputFile, line) && !line.empty()) {
-					cout << line << endl;
-				}
-				break;
 			}
+			break;
 		}
 		inputFile.close();
 		if (!found) {
 			cout << "Account has no orders placed." << endl;
 		}
-		cout << "\n1. Back to Menu" << endl;
+		cout << "\n1. Delete Order" << endl;
+		cout << "2. Back to Menu" << endl;
 		cout << "Enter choice: ";
 		cin >> choice;
 
-		if (choice == 1) {
+		switch (choice) {
+		case 1:
+			Deleteorder(username);
+			break;
+		case 2:
 			usermenu(username);
 			break;
+		default:
+			cout << "Invalid choice." << endl;
+			break;
 		}
-	} while (choice != 1);
+	} while (choice != 2);
 }
 
 
@@ -176,12 +322,13 @@ void orderMenu(string username) {
 				cout << "\nCode Approved!";
 				total -= total * 0.20;
 				cout << "\nYour Total Is $" << total << "\n\n";
-				saveOrderToFile(username,order, total);
+				saveOrderToFile(username, order, total);
 				checkout();
 				break;
 
 			}
 		case 2:
+			saveOrderToFile(username, order, total);
 			checkout();
 			break;
 		}
@@ -379,7 +526,7 @@ void adminmenu(string username)
 			viewaccounts();
 			break;
 		case 3:
-			vieworder(username);
+			Adminvieworder(username);
 		case 4:
 			main();
 			break;
@@ -525,6 +672,7 @@ void card() {
 	}
 	system("cls");
 	system("clear");
+
 }
 // Billing
 
