@@ -309,7 +309,7 @@ void loginuser() {   // Login User
 	string username, password;
 	int attempts = 0;
 	bool found = false;
-	User currentuser; // Define currentuser variable in outer scope
+	User currentuser;
 	while (attempts < 3 && !found) {
 		cout << "Enter Username: ";
 		cin >> username;
@@ -332,7 +332,7 @@ void loginuser() {   // Login User
 		usersfile.close();
 
 		if (!found) {
-			cout << "Invalid username or password." << endl;
+			cout << "Invalid username or password. You have " << 2 - attempts << " attempts left." << endl;
 			attempts++;
 		}
 	}
@@ -352,7 +352,6 @@ void loginuser() {   // Login User
 	}
 
 }
-
 
 
 // Admin Menu
@@ -454,14 +453,10 @@ void cash() {
 		char choice;
 		cout << "\n\nPress 'Y' to return to the Main Menu: ";
 		cin >> choice;
-		if (currentuser.type == "admin" && choice == 'Y' || choice == 'y') {
-			system("cls");
-			system("clear");
+		if (currentuser.type == "admin" && (choice == 'Y' || choice == 'y')) {
 			adminmenu(username);
 		}
-		else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
-			system("cls");
-			system("clear");
+		else if (currentuser.type == "user" && (choice == 'Y' || choice == 'y')) {
 			usermenu(username);
 		}
 		break;
@@ -469,6 +464,8 @@ void cash() {
 		checkout();
 		break;
 	}
+	system("cls");
+	system("clear");
 }
 
 // Credit Card Payment
@@ -514,24 +511,21 @@ void card() {
 	cin >> choice;
 
 	switch (choice) {
-		case 1:
-			if (currentuser.type ==  "admin" && choice == 'Y' || choice == 'y') {
-				system("cls");
-				system("clear");
-				adminmenu(username);
-			}
-			else if (currentuser.type == "user" && choice == 'Y' || choice == 'y') {
-				system("cls");
-				system("clear");
-				usermenu(username);
-			}
-			break;
-		case 2:
-			cout <<"Invalid choice. Please try again.";
-			break;
+	case 1:
+		if (currentuser.type == "admin" && (choice == 'Y' || choice == 'y')) {
+			adminmenu(username);
+		}
+		else if (currentuser.type == "user" && (choice == 'Y' || choice == 'y')) {
+			usermenu(username);
+		}
+		break;
+	case 2:
+		cout << "Invalid choice. Please try again.";
+		break;
 	}
+	system("cls");
+	system("clear");
 }
-
 // Billing
 
 // Main
