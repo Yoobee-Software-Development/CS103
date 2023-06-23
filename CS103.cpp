@@ -71,7 +71,7 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 		for (const auto& item : order) {
 			outputFile << item << " - $" << menuItems[item] << "\n";
 			adminFile << item << " - $" << menuItems[item] << "\n";
-		}
+		} 
 		outputFile << "Total: $" << total << "\n";
 		adminFile << "Total: $" << total << "\n";
 		outputFile << "----------------------------------\n";
@@ -256,7 +256,7 @@ void orderMenu(string username) {
 	};
 
 	vector<string> order;
-	double total = 0.0;
+	double total = 0.00;
 
 	char choice;
 	do {
@@ -302,7 +302,8 @@ void orderMenu(string username) {
 		for (const auto& item : order) {
 			cout << item << " - $" << menuItems[item] << "\n";
 		}
-		cout << "\nTotal: $" << total;
+		total = total * 1.15;
+		cout << "\nTotal: $" << total << " inc GST";
 
 
 		// Discounts
@@ -321,7 +322,7 @@ void orderMenu(string username) {
 			if (discount == "xXZ9D6" || discount == "ncpFNs" || discount == "2925Ye" || discount == "9VqAna" || discount == "y82Fxh") {
 				cout << "\nCode Approved!";
 				total -= total * 0.20;
-				cout << "\nYour Total Is $" << total << "\n\n";
+				cout << "\nYour Total Is $" << total << " inc GST\n\n";
 				saveOrderToFile(username, order, total);
 				checkout();
 				break;
