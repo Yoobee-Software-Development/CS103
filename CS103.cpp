@@ -161,7 +161,7 @@ void DeleteorderAdmin() {
 void Adminvieworder(string username) {
 	int choice;
 	do {
-		system("cls");
+		
 		system("clear");
 		ifstream inputFile("adminorder.txt");
 		string line;
@@ -200,7 +200,7 @@ void Adminvieworder(string username) {
 void vieworder(string username) {
 	int choice;
 	do {
-		system("cls");
+		
 		system("clear");
 		string fileName = username + ".txt";
 		ifstream inputFile(fileName);
@@ -241,7 +241,7 @@ void vieworder(string username) {
 
 // Order Menu
 void orderMenu(string username) {
-	system("cls");
+	
 	system("clear"); // Clear Screen
 	drawMenu(); // Draws MENU Logo
 	map<string, double> menuItems = { // Name and price for all products
@@ -339,7 +339,7 @@ void orderMenu(string username) {
 
 // Checkout
 void checkout() {
-	system("cls");
+	
 	system("clear");
 	int choice;
 	cout << "Choose your payment method";
@@ -360,7 +360,7 @@ void checkout() {
 
 // Create Account
 void createuser() {
-	system("cls");
+	
 	system("clear"); // clear screen
 
 	User newuser;
@@ -403,7 +403,7 @@ void deleteaccount(string username) {
 void viewaccounts() {
 	int choice;
 	do {
-		system("cls");
+		
 		system("clear"); // Clear Screen
 		cout << "All Accounts:\n";
 		User currentuser;
@@ -425,7 +425,7 @@ void viewaccounts() {
 			cout << "Account deleted successfully.\n";
 		}
 	} while (choice != 2);
-	system("cls");
+	
 	system("clear"); //Clear Screen
 }
 
@@ -452,7 +452,7 @@ void exitprogram() {
 
 // Login
 void loginuser() {   // Login User
-	system("cls");
+	
 	system("clear"); // clear screen
 	string username, password;
 	int attempts = 0;
@@ -505,7 +505,7 @@ void loginuser() {   // Login User
 // Admin Menu
 void adminmenu(string username)
 {
-	system("cls");
+	
 	system("clear"); // clear screen
 	int choice;
 	do {
@@ -544,7 +544,7 @@ void adminmenu(string username)
 // User Menu
 void usermenu(string username)
 {
-	system("cls");
+	
 	system("clear"); // clear screen
 	int choice;
 	do {
@@ -581,7 +581,7 @@ void usermenu(string username)
 
 // Cash Payment
 void cash() {
-	system("cls");
+	
 	system("clear");
 
 	string username;
@@ -612,13 +612,13 @@ void cash() {
 		checkout();
 		break;
 	}
-	system("cls");
+	
 	system("clear");
 }
 
 // Credit Card Payment
 void card() {
-	system("cls");
+	
 	system("clear");
 
 	// Declare variables
@@ -671,7 +671,7 @@ void card() {
 		cout << "Invalid choice. Please try again.";
 		break;
 	}
-	system("cls");
+	
 	system("clear");
 
 }
@@ -680,7 +680,7 @@ void card() {
 // Main
 int main()
 {
-	system("cls");
+	
 	system("clear");  // clear screen
 	int choice;
 	cout << "Welcome to the School Lunch Ordering System!" << endl;
