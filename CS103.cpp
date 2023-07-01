@@ -7,9 +7,9 @@
 #include <cstdlib>
 using namespace std;
 
-// Login System
 
-struct User {
+// Structure to store user information.
+struct User { 
 	string username;
 	string password;
 	string type; // "admin" or "user"
@@ -58,7 +58,7 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 		{"Donut", 7.00}
 	};
 
-	string fileName = username + ".txt";
+	string fileName = username + ".txt"; // Creates file name for users order.
 	ofstream outputFile(fileName, ios::app);
 	ofstream adminFile("adminorder.txt", ios::app);
 	if (outputFile.is_open() && adminFile.is_open()) {
@@ -71,7 +71,7 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 		for (const auto& item : order) {
 			outputFile << item << " - $" << menuItems[item] << "\n";
 			adminFile << item << " - $" << menuItems[item] << "\n";
-		} 
+		}
 		outputFile << "Total: $" << total << "\n";
 		adminFile << "Total: $" << total << "\n";
 		outputFile << "----------------------------------\n";
@@ -85,7 +85,7 @@ void saveOrderToFile(const string& username, const vector<string>& order, double
 
 
 
-
+// Function to delete an order from a user by specifying the order number and username.
 void Deleteorder(const string& username) {
 	string fileName = username + ".txt";
 	vector<string> lines;
@@ -114,14 +114,14 @@ void Deleteorder(const string& username) {
 			userFileOut << line << "\n";
 		}
 		userFileOut.close();
-cout << "Order deleted successfully." << endl;
+		cout << "Order deleted successfully." << endl;
 	}
- else {
-	 cout << "No orders found." << endl;
+	else {
+		cout << "No orders found." << endl;
 	}
 }
 
-
+// Function to delete order from the admins file by specifying the order number  and username.
 void DeleteorderAdmin() {
 	vector<string> lines;
 	ifstream adminFile("adminorder.txt");
@@ -157,12 +157,12 @@ void DeleteorderAdmin() {
 }
 
 
-
+// Function to allow the admin to view all orders.
 void Adminvieworder(string username) {
 	int choice;
 	do {
-		
-		system("clear");
+
+		system("clear"); // Clears the screen.
 		ifstream inputFile("adminorder.txt");
 		string line;
 		bool found = false;
@@ -196,12 +196,12 @@ void Adminvieworder(string username) {
 	} while (choice != 2);
 }
 
-// View Order
+// Function to allow a user to view their order history.
 void vieworder(string username) {
 	int choice;
 	do {
-		
-		system("clear");
+
+		system("clear"); // Clear screen.
 		string fileName = username + ".txt";
 		ifstream inputFile(fileName);
 		string line;
@@ -239,9 +239,9 @@ void vieworder(string username) {
 
 
 
-// Order Menu
+// Function to display the order menu and allows a user to place a order.
 void orderMenu(string username) {
-	
+
 	system("clear"); // Clear Screen
 	drawMenu(); // Draws MENU Logo
 	map<string, double> menuItems = { // Name and price for all products
@@ -337,10 +337,10 @@ void orderMenu(string username) {
 }
 
 
-// Checkout
+// Checkout allows user to their payment method.
 void checkout() {
-	
-	system("clear");
+
+	system("clear"); // Clear screen.
 	int choice;
 	cout << "Choose your payment method";
 	cout << "\n1. Cash";
@@ -358,9 +358,9 @@ void checkout() {
 	}
 }
 
-// Create Account
+// Create Account function.
 void createuser() {
-	
+
 	system("clear"); // clear screen
 
 	User newuser;
@@ -380,7 +380,7 @@ void createuser() {
 	main();
 }
 
-// Delete Account
+// Function to delete a account by specifying the username.
 void deleteaccount(string username) {
 	vector<User> users;
 	User currentuser;
@@ -399,11 +399,11 @@ void deleteaccount(string username) {
 	usersfileout.close();
 }
 
-// View Accounts
+// View Accounts function.
 void viewaccounts() {
 	int choice;
 	do {
-		
+
 		system("clear"); // Clear Screen
 		cout << "All Accounts:\n";
 		User currentuser;
@@ -425,7 +425,7 @@ void viewaccounts() {
 			cout << "Account deleted successfully.\n";
 		}
 	} while (choice != 2);
-	
+
 	system("clear"); //Clear Screen
 }
 
@@ -452,13 +452,13 @@ void exitprogram() {
 
 // Login
 void loginuser() {   // Login User
-	
+
 	system("clear"); // clear screen
 	string username, password;
-	int attempts = 0;
+	int attempts = 0; // Keeps track of attempted log ins.
 	bool found = false;
 	User currentuser;
-	while (attempts < 3 && !found) {
+	while (attempts < 3 && !found) { // Allows up to 3 login attempts.
 		cout << "Enter Username: ";
 		cin >> username;
 		cout << "Enter Password: ";
@@ -505,7 +505,7 @@ void loginuser() {   // Login User
 // Admin Menu
 void adminmenu(string username)
 {
-	
+
 	system("clear"); // clear screen
 	int choice;
 	do {
@@ -544,7 +544,7 @@ void adminmenu(string username)
 // User Menu
 void usermenu(string username)
 {
-	
+
 	system("clear"); // clear screen
 	int choice;
 	do {
@@ -581,7 +581,7 @@ void usermenu(string username)
 
 // Cash Payment
 void cash() {
-	
+
 	system("clear");
 
 	string username;
@@ -612,13 +612,13 @@ void cash() {
 		checkout();
 		break;
 	}
-	
+
 	system("clear");
 }
 
 // Credit Card Payment
 void card() {
-	
+
 	system("clear");
 
 	// Declare variables
@@ -671,7 +671,7 @@ void card() {
 		cout << "Invalid choice. Please try again.";
 		break;
 	}
-	
+
 	system("clear");
 
 }
@@ -680,7 +680,7 @@ void card() {
 // Main
 int main()
 {
-	
+
 	system("clear");  // clear screen
 	int choice;
 	cout << "Welcome to the School Lunch Ordering System!" << endl;
